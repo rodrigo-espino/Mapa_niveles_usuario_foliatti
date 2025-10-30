@@ -19,3 +19,13 @@ def obtain_data_by_casino(casino):
 
 
     return df
+
+def obtain_zip_code_players_shared(state):
+    query = f"""
+    SELECT * FROM "JUGADORES_COMPARTIDOS" WHERE "Estado" = '{state}'
+    """
+    engine = create_engine(DATABASE)
+    df = pd.read_sql_query(query, engine)
+    engine.dispose()
+
+    return df
