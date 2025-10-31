@@ -8,10 +8,11 @@ load_dotenv()
 DATABASE = os.getenv('DATABASE_URL')
 
 
-def obtain_data_by_casino(casino, date='2025-01-01'):
+def obtain_data_by_casino(casino, initial_date='2025-01-01', final_date='2025-10-31'):
     query = f"""
     SELECT * FROM "ZIP_CODE_PLAYER_LEVEL" 
-    WHERE "Casino" = '{casino}' AND "LAST_VISIT" >= '{date}'
+    WHERE "Casino" = '{casino}' AND "LAST_VISIT" >= '{initial_date}'
+    AND "LAST_VISIT" <= '{final_date}'
     """
 
     engine = create_engine(DATABASE)

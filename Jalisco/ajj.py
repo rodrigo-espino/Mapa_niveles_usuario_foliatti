@@ -2,14 +2,17 @@ import streamlit as st
 import plotly.express as px
 from func.db import obtain_data_by_casino
 import numpy as np
-
+import datetime
 st.title("Ajijic")
 st.write("Ubicación de jugadores registrados en Ajijic por nivel de jugador")
 
-d = st.date_input("Seleccionar fecha de ultima visita de los usuarios", value=None)
-if d:    
-    df = obtain_data_by_casino('Ajijic', d)
-else: 
+today = datetime.datetime.now()
+date_range = st.date_input("Seleccionar rango de fechas", value=(datetime.date(2025, 1, 1), today))
+
+if len(date_range) == 2:
+    start_date, end_date = date_range
+    df = obtain_data_by_casino('Ajijic', start_date, end_date)
+else:
     df = obtain_data_by_casino('Ajijic')
 if df.shape[0] == 0:
     st.subheader("Lo sentimos... no se encontró información")
