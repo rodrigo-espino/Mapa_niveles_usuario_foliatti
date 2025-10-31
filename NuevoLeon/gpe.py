@@ -1,7 +1,7 @@
 import streamlit as st
 import plotly.express as px
 from func.db import obtain_data_by_casino
-
+import numpy as np
 
 
 st.title("Guadalupe")
@@ -16,8 +16,19 @@ if df.shape[0] == 0:
     st.subheader("Lo sentimos... no se encontró información")
 
 else:
-        
-    fig = px.scatter_map(df, lat="lat", lon="lon", color='PLAYER_LEVEL_NAME')
+    df_plot = df.copy()
+
+    # Aplica un pequeño desplazamiento (ajusta el valor según tu escala)
+    df_plot["lat_jitter"] = df_plot["lat"] + np.random.uniform(-0.003, 0.003, len(df_plot))
+    df_plot["lon_jitter"] = df_plot["lon"] + np.random.uniform(-0.003, 0.003, len(df_plot))
+
+    fig = px.scatter_map(
+        df_plot,
+        lat="lat_jitter",
+        lon="lon_jitter",
+        color='PLAYER_LEVEL_NAME',
+        hover_name='PLAYER_LEVEL_NAME'
+    )
     fig.update_layout(
         autosize=False,
         height=700,
