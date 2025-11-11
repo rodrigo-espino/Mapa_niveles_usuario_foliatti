@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 import plotly.express as px
 from func.db import obtain_data_by_casino
@@ -24,6 +25,9 @@ else:
     df_plot["lat_jitter"] = df_plot["lat"] + np.random.uniform(-0.003, 0.003, len(df_plot))
     df_plot["lon_jitter"] = df_plot["lon"] + np.random.uniform(-0.003, 0.003, len(df_plot))
 
+    df_casino_coor = pd.DataFrame({'lat_jitter': [25.76789675524622] , 'lon_jitter':[-100.30340864727516] , 'PLAYER_LEVEL_NAME': ['Casino Sendero']})
+
+    df_plot = pd.concat([df_plot, df_casino_coor])
     fig = px.scatter_map(
         df_plot,
         lat="lat_jitter",

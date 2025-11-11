@@ -3,6 +3,7 @@ import plotly.express as px
 from func.db import obtain_data_by_casino
 import numpy as np 
 import datetime
+import pandas as pd
 st.title("Neza")
 st.write("Ubicación de jugadores registrados en Neza por nivel de jugador")
 
@@ -25,6 +26,9 @@ else:
     df_plot["lat_jitter"] = df_plot["lat"] + np.random.uniform(-0.003, 0.003, len(df_plot))
     df_plot["lon_jitter"] = df_plot["lon"] + np.random.uniform(-0.003, 0.003, len(df_plot))
 
+    df_casino_coor = pd.DataFrame({'lat_jitter': [19.409468663830918] , 'lon_jitter':[-99.01323783022512] , 'PLAYER_LEVEL_NAME': ['Casino Neza']})
+
+    df_plot = pd.concat([df_plot, df_casino_coor])
     fig = px.scatter_map(
         df_plot,
         lat="lat_jitter",
